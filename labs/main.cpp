@@ -1,8 +1,9 @@
-#include <iostream>
+﻿#include <iostream>
 #include <windows.h>
 #include <ctime>
 #include <iomanip>
 #include <string>
+#include <regex>
 #include <math.h>
 #include <vector>
 
@@ -18,6 +19,12 @@ void lab2_2();
 void lab2_3();
 void lab2_4();
 void test2();
+void lab3_1();
+void hello(string);
+void lab3_2();
+void lab3_3();
+void lab3_4();
+void test3();
 
 int main()
 {
@@ -25,12 +32,17 @@ int main()
 	//lab1_1();
 	//lab1_2();
 	//lab1_3();
-	test1();
+	//test1();
 	//lab2_1();
 	//lab2_2();
 	//lab2_3();
 	//lab2_4();
-	test2();
+	//test2();
+	//lab3_1();
+	//lab3_2();
+	//lab3_3();
+	//lab3_4();
+	test3();
 }
 
 static void lab0()
@@ -355,4 +367,234 @@ static void test2() {
 		attempts++;
 	}
 	cout << "For " << attempts << " shots you got " << score << " points. " << getShooterLevel(score) << endl;
+}
+
+string getHello(string name) {
+	string str = name + ", " + "hello!\n";
+	return str;
+}
+
+void lab3_1() {
+	//task 1
+	string name;
+	cout << "What is your name?" << endl;
+	cin >> name;
+	hello(name);
+	//task 2
+	//string name;
+	//cout << "What is your name?" << endl;
+	//cin >> name;
+	string hello = getHello(name);
+	cout << hello;
+}
+
+void hello(string name) {
+	cout << name << ", " << "hello!" << endl;
+}
+
+void hello(string name, int k)
+{
+	cout << name << ", " << "hello! " << "you input " << k << endl;
+}
+
+void lab3_2() {
+	string name;
+	cout << "What is your name?" << endl;
+	cin >> name;
+	int k;
+	cout << "Input number:" << endl;
+	cin >> k;
+	hello(name, k);
+}
+
+long double firBinSearch(double a, int n)
+{
+	double L = 0;
+	double R = a;
+	while (R - L > 1e-10)
+	{
+		double M = (L + R) / 2;
+		if (pow(M, n) < a)
+		{
+			L = M;
+		}
+		else
+		{
+			R = M;
+		}
+	}
+	return R;
+}
+
+void lab3_3() {
+	cout.precision(7);
+	double a;
+	int n;
+	cout << "Calculate the nth root of a using real binary search.\n";
+	cout << "To do this, enter two numbers separated by a space\n";
+	cout << "where the first a is real, greater than or equal to 1, does not exceed 1000, specified with an accuracy of 6 digits after the decimal point\n";
+	cout << "where the second n is a natural number not exceeding 10\n";
+	cin >> a >> n;
+	cout << firBinSearch(a, n) << endl;
+}
+
+int up(int n)
+{
+	if (n == 1) return 1;
+	else return (n + up(n - 1));
+}
+
+int up(int n1, int n2)
+{
+	if (n1 == 1) return 1;
+	else return (n1 + up(n2 - 1));
+}
+
+int down(int n)
+{
+	if (n == 1) return 1;
+	else return (n - down(n - 1));
+}
+
+int gcd(int m, int n)
+{
+	if (n == 0) return m;
+	return gcd(n, m % n);
+}
+
+void lab3_4() {
+	//task 1
+	int n, n1, n2;
+	cout << "Enter number: ";
+	cin >> n;
+	cout << up(n) << endl;
+	cout << down(n) << endl;
+	cout << "Enter first number: ";
+	cin >> n1;
+	cout << "Enter second number: ";
+	cin >> n2;
+	cout << up(n1, n2) << endl;
+	//task 2
+	cout << "Greatest common divisor\n";
+	cout << gcd(n1, n2) << endl;
+}
+
+bool checkSNILS(string snils, bool override) {
+	snils = regex_replace(snils, regex("[ -]"), "");
+	return checkSNILS(snils);
+}
+
+double cubicRoot(double x) {
+	return pow(x, 1.0 / 3);
+}
+
+double cubicRoot(double x, bool iterative) {
+	double result = x;
+	double epsilon = 1e-9;
+	while (true) {
+		double nextResult = (2 * result + x / (result * result)) / 3;
+		if (fabs(nextResult - result) < epsilon) {
+			return nextResult;
+		}
+		result = nextResult;
+	}
+}
+
+double triangleArea(double side) {
+	return sqrt(3) * side * side / 4;
+}
+
+double triangleArea(double a, double b, double c) {
+	double s = (a + b + c) / 2;
+	return sqrt(s * (s - a) * (s - b) * (s - c));
+}
+
+int sumSeries(int n) {
+	if (n == 1) {
+		return 5;
+	}
+	else {
+		return 5 * n + sumSeries(n - 1);
+	}
+}
+
+void decimalToBinary(int num) {
+	if (num > 0) {
+		decimalToBinary(num / 2);
+		cout << num % 2;
+	}
+}
+
+void test3() {
+	//task 1
+	// example 520-990-090 77
+	bool notTrue = true;
+	string snils;
+	while (notTrue)
+	{
+		cout << "\nEnter number SNILS: ";
+		getline(cin, snils);
+		if (checkSNILS(snils, true)) {
+			notTrue = false;
+			cout << "SNILS number is correct\n";
+		}
+		else {
+			cout << "Invalid SNILS number format\n";
+		}
+	}
+	//task 2
+	int n;
+	cout << "Enter number: ";
+	cin >> n;;
+	cout << "Pow : " << cubicRoot(n) << endl;
+	cout << "Iterative : " << cubicRoot(n, true) << endl;
+	//task 3
+	int choice;
+	cout << "Select triangle type:\n";
+	cout << "1. Equilateral triangle\n";
+	cout << "2. Scalene triangle\n";
+	cout << "Enter triangle type number: ";
+	cin >> choice;
+
+	if (choice == 1) {
+		double side;
+		cout << "Enter the side of an equilateral triangle: ";
+		cin >> side;
+		double area = triangleArea(side);
+		cout << "Area of an equilateral triangle: " << area << endl;
+	}
+	else if (choice == 2) {
+		double a, b, c;
+		cout << "Enter the sides of an equilateral triangle: ";
+		cin >> a >> b >> c;
+		double area = triangleArea(a, b, c);
+		cout << "Area of an equilateral triangle: " << area << endl;
+	}
+	else {
+		cout << "Wrong choice of triangle type." << endl;
+	}
+	//task 4
+	//int n;
+	cout << "Enter n number: ";
+	cin >> n;
+
+	if (n > 0) {
+		int result = sumSeries(n);
+		cout << "Sum of series : " << result << endl;
+	}
+	else {
+		cout << "The value of n must be greater than 0." << endl;
+	}
+	//task 5
+	//int n;
+	cout << "Enter a positive integer: ";
+	cin >> n;
+	if (n > 0) {
+		cout << "Binary representation: ";
+		decimalToBinary(n);
+		cout << endl;
+	}
+	else {
+		cout << "The number entered must be positive." << endl;
+	}
 }
