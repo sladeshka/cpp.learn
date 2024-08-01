@@ -59,6 +59,10 @@ public:
 		fracfeet += static_cast<float>(feet);
 		return fracfeet / MTF;
 	}
+	void operator= (Distance dist) {
+		feet = dist.feet;
+		inches = dist.inches;
+	}
 
 private:
 	int feet;
