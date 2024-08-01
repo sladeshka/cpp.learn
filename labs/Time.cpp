@@ -15,6 +15,12 @@ Time::Time()
     Time::minutes = 0;
     Time::seconds = 0;
 }
+Time::Time(double hours)
+{
+    set_seconds(int(hours * 3600));
+    set_minutes(0);
+    set_hours(0);
+}
 Time::Time(int hours, int minutes, int seconds)
 {
     if (minutes < 0 || seconds < 0)
@@ -26,6 +32,7 @@ Time::Time(int hours, int minutes, int seconds)
         Time::set_hours(hours);
     }
 }
+
 void Time::set_hours(int time_hours)
 {
     Time::hours += time_hours;

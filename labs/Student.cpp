@@ -1,7 +1,10 @@
 #include <string> 
 #include <fstream>
-#include "student.h"
+#include "Student.h"
 #include "IdCard.h"
+#include <iostream>
+
+using namespace std;
 
 Student::Student()
 {
@@ -45,6 +48,30 @@ IdCard Student::getIdCard()
     return *iCard;
 }
 
+void Student::display()
+{
+    cout << Student::get_last_name() << " " << Student::get_name() << endl;
+}
+
+bool operator== (const Student& p1, const Student& p2)
+{
+    return (p1.name == p2.name && p1.last_name == p2.last_name) ? true : false;
+}
+bool operator< (const Student& p1, const Student& p2)
+{
+    if (p1.last_name == p2.last_name)
+        return (p1.name < p2.name) ? true : false;
+    return (p1.last_name < p2.last_name) ? true : false;
+}
+bool operator!= (Student& p1, Student& p2)
+{
+    return !(p1 == p2);
+}
+bool operator> (Student& p1, Student& p2)
+{
+    return !(p1 < p2) && !(p2 == p2);
+}
+
 void Student::setIdCard(IdCard* c)
 {
     iCard = c;
@@ -78,9 +105,7 @@ void Student::set_average_score(double ball)
 {
     Student::average_score = ball;
 }
-double Student::get_average_score()
+/*double Student::get_average_score()
 {
     return Student::average_score;
-}
-
-
+}*/
